@@ -11,10 +11,14 @@ public class Main {
     public static String golemAttackType = "Physical";
     public static int luckyHealth = 200;
     public static double luckyAvoidProbability = 0.2;
-    public static int[] heroesHealth = {270, 260, 250, medicHealth, golemHealth, luckyHealth};
-    public static int[] heroesDamage = {10, 15, 20, 0, golemDamage, 0};
+    public static int berserkHealth = 250;
+    public static int berserkDamage = 10;
+    public static int thorHealth = 220;
+    public static int thorDamage = 15;
+    public static int[] heroesHealth = {270, 260, 250, medicHealth, golemHealth, luckyHealth,berserkHealth, thorHealth};
+    public static int[] heroesDamage = {10, 15, 20, 0, golemDamage, 0,berserkDamage,thorDamage};
     public static String[] heroesAttackType = {"Physical", "Magical", "Kinetic", "Medical",
-            golemAttackType, "Dodge"};
+            golemAttackType, "Dodge", "Berserk", "Thor"};
 
     public static int roundNumber = 0;
     public static String message = "";
@@ -89,6 +93,20 @@ public class Main {
                     int coefficient = random.nextInt(9) + 2; // 2,3,4,5,6,7,8,9,10;
                     damage = damage * coefficient;
                     message = "Critical damage: " + damage;
+                }
+                if (heroesAttackType[i] == "Berserk") {
+                    int blockedDamage = bossDamage / 2;
+                    damage += blockedDamage;
+                    bossHealth -= blockedDamage;
+                    message = "Berserk blocked " + blockedDamage + " damage and dealt " + damage + " damage to Boss";
+                }
+                if (heroesAttackType[i] == "Thor") {
+                    Random random = new Random();
+                    boolean stun = random.nextBoolean();
+                    if (stun) {
+                        bossDefence = null;
+                        message = "Thor stunned Boss!";
+                    }
                 }
                 if (bossHealth - damage < 0) {
                     bossHealth = 0;
